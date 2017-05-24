@@ -1,0 +1,11 @@
+{% if teams %}
+    <ul>
+    {% for team in teams %}
+        <p> {{ team.team_name }} {{team.pk}} </p>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No team are available.</p>
+{% endif %}
+
+

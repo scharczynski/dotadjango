@@ -1,0 +1,7 @@
+{% if player %}
+    <p> {{ player.player_name }} </p>
+    <p> {{ player.steam_id }}
+    <p> {{ player.team.team_name}} </p>
+{% else %}
+    <p> player does not exist </p>
+{% endif %}

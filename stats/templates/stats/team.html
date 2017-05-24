@@ -1,0 +1,14 @@
+{% if team %}
+    <h1> {{ team.team_name }} </h1>
+    {% if players %}
+        <ul>
+        {% for player in players %}
+            <li><a href="{% url 'stats:player' player.pk %}">{{ player.player_name }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p> No players on team </p>
+    {% endif %}
+{% else %}
+    <p>No team are available.</p>
+{% endif %}
