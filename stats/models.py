@@ -22,6 +22,16 @@ class Player(models.Model):
     def __str__(self):
         return self.player_name
 
+class Hero(models.Model):
+    hero_id = models.CharField(max_length=200)
+    hero_name = models.CharField(max_length=200)
+    code_name = models.CharField(max_length=200)
+    attr = models.CharField(max_length=200)
+    attack_type = models.CharField(max_length=200)
+    roles = [models.CharField(max_length=200)]
+
+    def __str__(self):
+        return self.hero_id, self.hero_name
 
 
 # class Teams(models.Model):
@@ -29,3 +39,4 @@ class Player(models.Model):
 
 #     def __str__(self):
 #         return str(team.team_name for team in teams)
+

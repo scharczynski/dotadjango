@@ -13,7 +13,8 @@ urlpatterns = [
     # ex: /polls/5/results/
     url(r'^player/(?P<player_id>[0-9]+)/$', views.player, name='player'),
 
-    url(r'^match', views.match, name='match')
+    url(r'^match', views.match, name='match'),
+    url(r'^lookup/(?P<steam_id>[0-9]+)/$', views.lookup, name='lookup'),
     # ex: /polls/5/vote/
     #url(r'^(?P<question_id>[0-9]+)/vote/$', views.vote, name='vote'),
 ]

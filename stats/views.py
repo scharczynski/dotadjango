@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.views import generic
 from .models import Team, Player
 import requests
-
+import json
 
 # def index(request):
 #     teams = Team.objects.all()
@@ -66,3 +66,30 @@ def teams(request):
     return render(request,'stats/teams.html', {'teams':teams})
     #template_name = 'stats/teams.html'
     #context_object_name = 'teams'
+
+def lookup(request, steam_id):
+    player = requests.get('https://api.opendota.com/api/players/'+str(steam_id))
+    heroes = requests.get('https://api.opendota.com/api/players/'+str(steam_id)+'/heroes')
+    hero_names = requests.get('https://api.opendota.com/api/heroes')
+    parsed_heroes = heroes.json()
+    parsed_player = player.json()
+    parsed_hero_name = hero_names.json()
+    hero_wins = []
+    namelist = {}
+
+   
+
+    for j in parsed_hero_name:
+        namelist[j["id"]]  =  j["localized_name"]
+
+    for i in parsed_heroes:
+        hero_wins.append(i["win"])
+        hero_id = i["hero_id"]
+        hero_wins.append(namelist[int(hero_id)])
+
+    solo_mmr = parsed_player['solo_competitive_rank']
+    profile = parsed_player['profile']
+    name = profile['name']
+    persona_name = profile['personaname']
+
+    return render(request, 'stats/lookup.html', {'player':player, 'solo_mmr': solo_mmr, 'name':name, 'persona_name':persona_name, 'top3':hero_wins[:6]})
