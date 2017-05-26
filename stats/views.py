@@ -70,26 +70,43 @@ def teams(request):
 def lookup(request, steam_id):
     player = requests.get('https://api.opendota.com/api/players/'+str(steam_id))
     heroes = requests.get('https://api.opendota.com/api/players/'+str(steam_id)+'/heroes')
-    hero_names = requests.get('https://api.opendota.com/api/heroes')
+    hero_stats = requests.get('https://api.opendota.com/api/heroStats')
     parsed_heroes = heroes.json()
     parsed_player = player.json()
-    parsed_hero_name = hero_names.json()
+    parsed_hero_stats= hero_stats.json()
     hero_wins = []
     namelist = {}
+    fivek_winrate = []
+    fivek_dict = {}
+    top_compares = []
+    comparedict = {}
 
    
 
-    for j in parsed_hero_name:
+    for j in parsed_hero_stats:
         namelist[j["id"]]  =  j["localized_name"]
+        fivewin = float(j['5000_win']) / j['5000_pick']
+        fivek_dict[j["id"]] = fivewin
 
     for i in parsed_heroes:
-        hero_wins.append(i["win"])
-        hero_id = i["hero_id"]
-        hero_wins.append(namelist[int(hero_id)])
+        player_winrate = float(i['win']) / i['games']
+        #print i['win'] / i['games']
+        #rint i['games']
+        hero_id = int(i["hero_id"])
+        compare_winrate = player_winrate / fivek_dict[hero_id]
+        hero_wins.append((player_winrate, namelist[int(hero_id)], compare_winrate))
+        comparedict[hero_id] = compare_winrate
+        top_compares.append(compare_winrate)
+        
 
     solo_mmr = parsed_player['solo_competitive_rank']
     profile = parsed_player['profile']
     name = profile['name']
     persona_name = profile['personaname']
 
-    return render(request, 'stats/lookup.html', {'player':player, 'solo_mmr': solo_mmr, 'name':name, 'persona_name':persona_name, 'top3':hero_wins[:6]})
+    top_compares.sort()
+
+
+
+
+    return render(request, 'stats/lookup.html', {'player':player, 'solo_mmr': solo_mmr, 'name':name, 'persona_name':persona_name, 'top3':hero_wins[:3], 'top3_relative': top_compares[:-3]})
