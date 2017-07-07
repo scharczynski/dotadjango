@@ -4,7 +4,7 @@ from . import views
 
 app_name = 'stats'
 urlpatterns = [
-    url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^$', views.index, name='index'),
 
     
     # ex: /polls/5/
@@ -17,4 +17,5 @@ urlpatterns = [
     url(r'^lookup/(?P<steam_id>[0-9]+)/$', views.lookup, name='lookup'),
     # ex: /polls/5/vote/
     #url(r'^(?P<question_id>[0-9]+)/vote/$', views.vote, name='vote'),
+    url(r'^results/$', views.results, name="results"),
 ]
