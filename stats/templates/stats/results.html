@@ -1,8 +1,15 @@
-{% if persona_name %}
-    <p> {{ persona_name }} </p>
-    <p> {{ solo_mmr}} </p>
-    <p> {{top3}} </p>
-    <p> {{top3_relative}} </p>
-{% else %}
-    <p> player does not exist </p>
-{% endif %}
+{% for data in data1 %}
+    <p> {{ data }} </p>
+{% endfor %}
+{% for data in data2 %}
+    <p> {{ data }} </p>
+{% endfor %}
+{% for data in data3 %}
+    <p> {{ data }} </p>
+{% endfor %}
+{% for data in data4 %}
+    <p> {{ data }} </p>
+{% endfor %}
+{% for data in data5 %}
+    <p> {{ data }} </p>
+{% endfor %}
